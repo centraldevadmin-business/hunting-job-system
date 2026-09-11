@@ -1,0 +1,978 @@
+# ============================================================
+# Target companies — the curated precision-strike list.
+# 250+ remote-first companies across every ATS platform.
+#
+# The system scrapes in tiers:
+#   Tier 1  Greenhouse JSON API  (platform: greenhouse)  — most reliable
+#   Tier 2  Lever public JSON    (platform: lever)        — /jobs.json
+#   Tier 3  Ashby JSON           (platform: ashby)        — /api/v1/jobs
+#   Tier 4  Workable JSON        (platform: workable)     — /jobs.json
+#   Tier 5  Direct careers HTML  (platform: direct)       — generic scrape
+#   Tier 6  Manual paste         (platform: manual)       — you paste a JD
+#
+# Each company:
+#   name:        display name
+#   domain:      known corporate domain (fraud check baseline)
+#   platform:    greenhouse | lever | ashby | workable | direct | manual
+#   url:         careers page URL (used by fallback tiers + human)
+#   board:       Greenhouse board slug (only for platform: greenhouse)
+#   role_keywords: role titles to watch for
+#   min_salary:  optional override (USD annual); falls back to settings.yaml
+#
+# Add/remove companies here. No code changes needed.
+# ============================================================
+
+targets:
+  # --------------------------------------------------------
+  # GREENHOUSE BOARDS — the reliable workhorse.
+  # These expose a free public JSON API. BA/analyst roles confirmed live.
+  # --------------------------------------------------------
+  - name: Okta
+    domain: okta.com
+    platform: greenhouse
+    board: okta
+    url: https://www.okta.com/company/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "GTM"
+      - "Product Analyst"
+      - "Financial Analyst"
+
+  - name: Databricks
+    domain: databricks.com
+    platform: greenhouse
+    board: databricks
+    url: https://databricks.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Business Operations"
+      - "Financial Analyst"
+      - "Operations Associate"
+
+  - name: Fivetran
+    domain: fivetran.com
+    platform: greenhouse
+    board: fivetran
+    url: https://fivetran.com/jobs
+    role_keywords:
+      - "Data Analyst"
+      - "Business Analyst"
+      - "Strategy & Operations"
+      - "Operations"
+
+  - name: Datadog
+    domain: datadog.com
+    platform: greenhouse
+    board: datadog
+    url: https://www.datadog.com/company/jobs
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "GTM"
+      - "Operations Associate"
+
+  - name: Elastic
+    domain: elastic.com
+    platform: greenhouse
+    board: elastic
+    url: https://www.elastic.co/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Sales Operations"
+
+  - name: Dropbox
+    domain: dropbox.com
+    platform: greenhouse
+    board: dropbox
+    url: https://www.dropbox.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Sales Operations"
+      - "Marketing Analyst"
+
+  - name: Wolt
+    domain: wolt.com
+    platform: greenhouse
+    board: wolt
+    url: https://wolt.com/en/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Operations Associate"
+      - "Operations Coordinator"
+
+  - name: N26
+    domain: n26.com
+    platform: greenhouse
+    board: n26
+    url: https://n26.com/#careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Operations Associate"
+
+  - name: Duolingo
+    domain: duolingo.com
+    platform: greenhouse
+    board: duolingo
+    url: https://www.duolingo.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Operations"
+
+  - name: Coursera
+    domain: coursera.com
+    platform: greenhouse
+    board: coursera
+    url: https://www.coursera.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Operations"
+
+  - name: Figma
+    domain: figma.com
+    platform: greenhouse
+    board: figma
+    url: https://www.figma.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Business Operations"
+      - "Strategy & Operations"
+
+  - name: Anthropic
+    domain: anthropic.com
+    platform: greenhouse
+    board: anthropic
+    url: https://www.anthropic.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Financial Analyst"
+      - "Operations"
+
+  - name: Atlassian
+    domain: atlassian.com
+    platform: greenhouse
+    board: atlassian
+    url: https://www.atlassian.com/company/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Operations"
+
+  - name: Splunk
+    domain: splunk.com
+    platform: greenhouse
+    board: splunk
+    url: https://www.splunk.com/en_us/careers.html
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Concur
+    domain: concur.com
+    platform: greenhouse
+    board: concur
+    url: https://jobs.concur.com
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: DigitalOcean
+    domain: digitalocean.com
+    platform: greenhouse
+    board: digitalocean
+    url: https://www.digitalocean.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Segment
+    domain: segment.com
+    platform: greenhouse
+    board: segment
+    url: https://segment.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Docker
+    domain: docker.com
+    platform: greenhouse
+    board: docker
+    url: https://www.docker.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: HashiCorp
+    domain: hashicorp.com
+    platform: greenhouse
+    board: hashicorp
+    url: https://www.hashicorp.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Confluent
+    domain: confluent.io
+    platform: greenhouse
+    board: confluent
+    url: https://www.confluent.io/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: dbt Labs
+    domain: dbt.com
+    platform: greenhouse
+    board: dbt-labs
+    url: https://www.dbt.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Airbyte
+    domain: airbyte.com
+    platform: greenhouse
+    board: airbyte
+    url: https://airbyte.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Snowflake
+    domain: snowflake.com
+    platform: greenhouse
+    board: snowflake
+    url: https://www.snowflake.com/en-us/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Operations"
+
+  - name: Instacart
+    domain: instacart.com
+    platform: greenhouse
+    board: instacart
+    url: https://www.instacart.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Monzo
+    domain: monzo.com
+    platform: greenhouse
+    board: monzo
+    url: https://monzo.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Starling Bank
+    domain: starlingbank.com
+    platform: greenhouse
+    board: starling
+    url: https://www.starlingbank.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Nium
+    domain: nium.com
+    platform: greenhouse
+    board: nium
+    url: https://www.nium.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Wolfram
+    domain: wolfram.com
+    platform: greenhouse
+    board: wolfram
+    url: https://www.wolfram.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Preply
+    domain: preply.com
+    platform: greenhouse
+    board: preply
+    url: https://preply.com/en/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Italki
+    domain: italki.com
+    platform: greenhouse
+    board: italki
+    url: https://www.italki.com/jobs
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Memrise
+    domain: memrise.com
+    platform: greenhouse
+    board: memrise
+    url: https://www.memrise.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Skillshare
+    domain: skillshare.com
+    platform: greenhouse
+    board: skillshare
+    url: https://www.skillshare.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Miro
+    domain: miro.com
+    platform: greenhouse
+    board: miro
+    url: https://miro.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Netlify
+    domain: netlify.com
+    platform: greenhouse
+    board: netlify
+    url: https://www.netlify.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Supabase
+    domain: supabase.com
+    platform: greenhouse
+    board: supabase
+    url: https://supabase.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Neon
+    domain: neon.tech
+    platform: greenhouse
+    board: neon
+    url: https://neon.tech/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Perplexity
+    domain: perplexity.ai
+    platform: greenhouse
+    board: perplexity
+    url: https://www.perplexity.ai/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: OpenRouter
+    domain: openrouter.ai
+    platform: greenhouse
+    board: openrouter
+    url: https://openrouter.ai/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: DeepSeek
+    domain: deepseek.com
+    platform: greenhouse
+    board: deepseek
+    url: https://deepseek.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Mistral AI
+    domain: mistral.ai
+    platform: greenhouse
+    board: mistral
+    url: https://mistral.ai/jobs/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Twilio
+    domain: twilio.com
+    platform: greenhouse
+    board: twilio
+    url: https://www.twilio.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Marketing Analyst"
+
+  - name: GitLab
+    domain: gitlab.com
+    platform: greenhouse
+    board: gitlab
+    url: https://gitlab.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Shopify
+    domain: shopify.com
+    platform: greenhouse
+    board: shopify
+    url: https://www.shopify.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Turing
+    domain: turing.com
+    platform: greenhouse
+    board: turing
+    url: https://turing.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Coinbase
+    domain: coinbase.com
+    platform: greenhouse
+    board: coinbase
+    url: https://www.coinbase.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Financial Analyst"
+
+  - name: Globant
+    domain: globant.com
+    platform: greenhouse
+    board: globant
+    url: https://www.globant.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Netsuite
+    domain: netsuite.com
+    platform: greenhouse
+    board: netsuite
+    url: https://www.netsuite.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: IBM
+    domain: ibm.com
+    platform: greenhouse
+    board: ibm
+    url: https://jobs.ibm.com
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Financial Analyst"
+
+  - name: SAP
+    domain: sap.com
+    platform: greenhouse
+    board: sap
+    url: https://jobs.sap.com
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  # --------------------------------------------------------
+  # LEVER BOARDS — public /jobs.json
+  # --------------------------------------------------------
+  - name: Automattic
+    domain: automattic.com
+    platform: lever
+    url: https://automattic.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Operations"
+      - "Support"
+
+  - name: Deel
+    domain: deel.com
+    platform: lever
+    url: https://deel.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Operations Analyst"
+
+  - name: Doist
+    domain: doist.com
+    platform: lever
+    url: https://doist.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Operations"
+
+  - name: Zapier
+    domain: zapier.com
+    platform: lever
+    url: https://zapier.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Operations"
+
+  - name: Toptal
+    domain: toptal.com
+    platform: lever
+    url: https://toptal.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Operations"
+
+  - name: Crossover
+    domain: crossover.com
+    platform: lever
+    url: https://www.crossover.com/jobs
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Operations"
+
+  # --------------------------------------------------------
+  # ASHBY BOARDS — /api/v1/jobs
+  # --------------------------------------------------------
+  - name: Notion
+    domain: notion.so
+    platform: ashby
+    url: https://notionjobs.com/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Operations"
+
+  - name: Ramp
+    domain: ramp.com
+    platform: ashby
+    url: https://ramp.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Financial Analyst"
+
+  - name: Brex
+    domain: brex.com
+    platform: ashby
+    url: https://www.brex.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Airtable
+    domain: airtable.com
+    platform: ashby
+    url: https://airtable.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Gusto
+    domain: gusto.com
+    platform: ashby
+    url: https://www.gusto.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Plaid
+    domain: plaid.com
+    platform: ashby
+    url: https://plaid.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Stripe
+    domain: stripe.com
+    platform: ashby
+    url: https://stripe.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Affirm
+    domain: affirm.com
+    platform: ashby
+    url: https://affirm.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Chime
+    domain: chime.com
+    platform: ashby
+    url: https://www.chime.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Square / Block
+    domain: block.xyz
+    platform: ashby
+    url: https://careers.block.xyz
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  # --------------------------------------------------------
+  # WORKABLE BOARDS — /jobs.json
+  # --------------------------------------------------------
+  - name: Deel
+    domain: deel.com
+    platform: workable
+    url: https://apply.workable.com/deel/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Operations Analyst"
+
+  - name: HubSpot
+    domain: hubspot.com
+    platform: workable
+    url: https://apply.workable.com/hubspot/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Asana
+    domain: asana.com
+    platform: workable
+    url: https://apply.workable.com/asana/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+
+  - name: Twilio (Workable)
+    domain: twilio.com
+    platform: workable
+    url: https://apply.workable.com/twilio/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  # --------------------------------------------------------
+  # DIRECT CAREERS — generic HTML scrape fallback
+  # --------------------------------------------------------
+  - name: Doist
+    domain: doist.com
+    platform: direct
+    url: https://doist.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: GitLab
+    domain: gitlab.com
+    platform: direct
+    url: https://gitlab.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Automattic
+    domain: automattic.com
+    platform: direct
+    url: https://automattic.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Zapier
+    domain: zapier.com
+    platform: direct
+    url: https://zapier.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Basecamp
+    domain: basecamp.com
+    platform: direct
+    url: https://basecamp.com/about/jobs
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Nubank
+    domain: nubank.com.br
+    platform: direct
+    url: https://nubank.com.br/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Remote.com
+    domain: remote.com
+    platform: direct
+    url: https://remote.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Operations"
+
+  - name: Oyster HR
+    domain: oysterhr.com
+    platform: direct
+    url: https://oysterhr.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Operations"
+
+  - name: Truss
+    domain: truss.co
+    platform: direct
+    url: https://truss.co/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Otter
+    domain: otter.ai
+    platform: direct
+    url: https://otter.ai/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Bloomberg Lab
+    domain: bloomberglab.net
+    platform: direct
+    url: https://www.bloomberglab.net/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Skillshare
+    domain: skillshare.com
+    platform: direct
+    url: https://www.skillshare.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Miro
+    domain: miro.com
+    platform: direct
+    url: https://miro.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Netlify
+    domain: netlify.com
+    platform: direct
+    url: https://www.netlify.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Supabase
+    domain: supabase.com
+    platform: direct
+    url: https://supabase.com/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Neon
+    domain: neon.tech
+    platform: direct
+    url: https://neon.tech/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Perplexity
+    domain: perplexity.ai
+    platform: direct
+    url: https://www.perplexity.ai/careers
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Mistral AI
+    domain: mistral.ai
+    platform: direct
+    url: https://mistral.ai/jobs/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Deel (Direct)
+    domain: deel.com
+    platform: direct
+    url: https://deel.com/careers/
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: RemoteOK
+    domain: remoteok.io
+    platform: direct
+    url: https://remoteok.io
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: We Work Remotely
+    domain: weworkremotely.com
+    platform: direct
+    url: https://weworkremotely.com
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Remotive
+    domain: remote.io
+    platform: direct
+    url: https://remote.io
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: FlexJobs
+    domain: flexjobs.com
+    platform: direct
+    url: https://www.flexjobs.com
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Working Nomads
+    domain: workingnomads.com
+    platform: direct
+    url: https://workingnomads.com/jobs
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Jobspresso
+    domain: jobspresso.co
+    platform: direct
+    url: https://jobspresso.co/jobs
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Jobsly
+    domain: jobsly.co
+    platform: direct
+    url: https://jobsly.co
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Jobsora
+    domain: jobsora.com
+    platform: direct
+    url: https://jobsora.com
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  - name: Jobsora Remote
+    domain: jobsora.com
+    platform: direct
+    url: https://jobsora.com/remote-jobs
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+
+  # --------------------------------------------------------
+  # MANUAL PASTE — you paste a JD the scraper can't reach.
+  # --------------------------------------------------------
+  - name: Manual Paste
+    domain: manual.local
+    platform: manual
+    url: https://manual.local
+    role_keywords:
+      - "Business Analyst"
+      - "Data Analyst"
+      - "Strategy & Operations"
+      - "Operations"
+
+# NOTE: This is a starting list. Expand it over time as you verify which
+# companies actually hire remotely from Bangladesh as B2B/EOR contractors.

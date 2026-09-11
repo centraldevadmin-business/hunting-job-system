@@ -1,0 +1,736 @@
+/* ==========================================================================
+   Hunting Job System — Design System (single source of truth)
+   ------------------------------------------------------------------------
+   Consolidated, responsive design tokens + component styles for the
+   Streamlit dashboard. One file, no duplicates. Mobile-first media queries
+   at the bottom so the layout adapts from phone → desktop.
+   ========================================================================== */
+
+/* ---- Design tokens ------------------------------------------------------ */
+:root {
+    --bg: #ffffff;
+    --page-bg: #f4f6fb;
+    --ink: #0b1220;
+    --ink-muted: #5b6472;
+    --ink-faint: #9aa3b2;
+    --line: #e6e9f0;
+    --line-strong: #cdd3df;
+    --accent: #4f46e5;
+    --accent-2: #6366f1;
+    --accent-soft: #eef2ff;
+    --green: #12a04f;
+    --green-soft: #ecfdf5;
+    --amber: #c2740a;
+    --amber-soft: #fffbeb;
+    --red: #dc2626;
+    --red-soft: #fef2f2;
+    --violet: #7c3aed;
+    --violet-soft: #f5f3ff;
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+    --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.07);
+    --shadow-lg: 0 12px 40px rgba(15, 23, 42, 0.12);
+    --radius: 16px;
+    --radius-lg: 20px;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', 'Monaco', 'Courier New', monospace;
+}
+
+/* ---- App shell ---------------------------------------------------------- */
+.stApp {
+    background: radial-gradient(1200px 600px at 100% -10%, #eef2ff 0%, transparent 60%),
+                radial-gradient(1000px 500px at 0% 0%, #f0fdf4 0%, transparent 55%),
+                var(--page-bg);
+    font-family: var(--font-sans);
+    color: var(--ink);
+}
+
+/* ---- Typography --------------------------------------------------------- */
+h1 {
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+}
+h2 {
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: -0.1px;
+    margin-top: 4px;
+}
+h3 {
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 15px;
+}
+.caption, .stCaption {
+    color: var(--ink-muted);
+    font-size: 12px;
+    font-weight: 400;
+}
+strong { color: var(--ink); font-weight: 600; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---- Buttons ------------------------------------------------------------ */
+button[kind="primary"] {
+    background-color: #2563eb !important;
+    border-color: #2563eb !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    border-radius: 10px !important;
+    transition: background-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+}
+button[kind="primary"]:hover {
+    background-color: #1d4ed8 !important;
+    border-color: #1d4ed8 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+button[kind="secondary"] {
+    background-color: #ffffff !important;
+    border-color: var(--line) !important;
+    color: var(--ink) !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    border-radius: 10px !important;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+button[kind="secondary"]:hover {
+    background-color: #f8fafa !important;
+    border-color: #94a3b8 !important;
+}
+button[kind="tertiary"] {
+    border-radius: 6px;
+    color: var(--ink-muted) !important;
+    font-size: 13px;
+}
+
+/* ---- Page headers ------------------------------------------------------- */
+.page-header { margin-bottom: 26px; }
+.page-title {
+    font-size: 27px;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.6px;
+    margin: 0;
+    line-height: 1.15;
+}
+.page-title .accent-word {
+    background: linear-gradient(120deg, #4f46e5, #7c3aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.page-subtitle {
+    color: var(--ink-muted);
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 6px;
+}
+.page-actions { display: flex; align-items: center; gap: 12px; }
+
+/* ---- Section labels ----------------------------------------------------- */
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin: 24px 0 16px;
+}
+.section-label::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 3px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+.section-label .count {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 999px;
+    margin-left: auto;
+}
+
+/* ---- Info / warning / success boxes ------------------------------------- */
+.ui-info {
+    background: var(--accent-soft);
+    border: 1px solid #c7d2fe;
+    border-radius: 14px;
+    padding: 18px 20px;
+    color: #3730a3;
+    font-size: 14px;
+}
+.ui-warning {
+    background: var(--amber-soft);
+    border: 1px solid #fde68a;
+    border-radius: 14px;
+    padding: 18px 20px;
+    color: #92400e;
+    font-size: 14px;
+}
+.ui-success {
+    background: var(--green-soft);
+    border: 1px solid #bbf7d0;
+    border-radius: 14px;
+    padding: 18px 20px;
+    color: #166534;
+    font-size: 14px;
+}
+
+/* ---- Badges ------------------------------------------------------------- */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 500;
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid var(--line);
+}
+.badge.green { background: var(--green-soft); color: var(--green); border-color: #bbf7d0; }
+.badge.amber { background: var(--amber-soft); color: var(--amber); border-color: #fde68a; }
+.badge.red { background: var(--red-soft); color: var(--red); border-color: #fecaca; }
+.badge.grey { background: #f1f5f9; color: #64748b; border-color: var(--line); }
+
+/* ---- Possibility pill --------------------------------------------------- */
+.poss-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    padding: 6px 10px;
+    min-width: 62px;
+    font-weight: 600;
+    font-size: 14px;
+    border: 1px solid var(--line);
+}
+
+/* ---- Pill buttons ------------------------------------------------------- */
+.pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.18s ease;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--ink);
+}
+.pill-btn:hover {
+    border-color: var(--accent-2);
+    background: var(--accent-soft);
+    color: var(--accent);
+    transform: translateY(-1px);
+}
+.pill-btn.primary {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+}
+.pill-btn.primary:hover {
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+    color: #fff;
+}
+
+/* ---- KPI cards ---------------------------------------------------------- */
+.kpi-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    transition: box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    margin: 0 6px !important;
+    position: relative;
+    overflow: hidden;
+}
+.kpi-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--accent), #3b82f6);
+    opacity: 0.9;
+}
+.kpi-card:hover {
+    box-shadow: 0 14px 40px rgba(15, 23, 42, 0.14);
+    transform: translateY(-6px);
+    border-color: var(--line-strong);
+}
+.kpi-card[data-accent="#2563eb"]::before { background: linear-gradient(90deg, #2563eb, #3b82f6); }
+.kpi-card[data-accent="#15803d"]::before { background: linear-gradient(90deg, #15803d, #22c55e); }
+.kpi-card[data-accent="#b45309"]::before { background: linear-gradient(90deg, #b45309, #f59e0b); }
+.kpi-card[data-accent="#7c3aed"]::before { background: linear-gradient(90deg, #7c3aed, #a855f7); }
+.kpi-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.kpi-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.kpi-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    flex-shrink: 0;
+}
+.kpi-value {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.9px;
+}
+.kpi-trend {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+.kpi-trend .up { color: var(--green); }
+.kpi-trend .down { color: var(--red); }
+.kpi-trend .period { color: var(--ink-faint); font-weight: 500; }
+.stat-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.8px;
+}
+.stat-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-top: 8px;
+}
+
+/* ---- Job cards ---------------------------------------------------------- */
+.job-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.2s ease;
+}
+.job-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--line-strong);
+}
+
+/* ---- Hunt rows (compact list) ------------------------------------------- */
+.hunt-row {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    background: var(--bg);
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.hunt-row:hover {
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-sm);
+}
+.score-mono {
+    font-family: var(--font-mono) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.3px;
+}
+
+/* ---- Chart / card containers -------------------------------------------- */
+.chart-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(8px);
+}
+.chart-card h3, .chart-card .stSubheader {
+    color: var(--ink) !important;
+    font-weight: 700 !important;
+    font-size: 15px !important;
+}
+
+/* ---- Expander ----------------------------------------------------------- */
+.streamlit-expanderHeader {
+    background: #fafafa !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 6px !important;
+    padding: 10px 12px;
+    font-weight: 500;
+    color: var(--ink) !important;
+}
+.streamlit-expanderHeader:hover {
+    background: #f1f5f9 !important;
+}
+.streamlit-expanderHeader p {
+    color: var(--ink) !important;
+    font-weight: 500;
+    font-size: 13px;
+}
+.streamlit-expanderContent { padding-top: 6px !important; }
+
+/* ---- Dataframe ---------------------------------------------------------- */
+[data-testid="stDataframe"] {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 13px;
+}
+[data-testid="stDataframe"] th {
+    background: #f8fafa !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    font-size: 11px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--line) !important;
+}
+[data-testid="stDataframe"] td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+}
+
+/* ---- Progress ----------------------------------------------------------- */
+[data-testid="stProgress"] > div > div > div {
+    background: var(--accent) !important;
+    border-radius: 999px;
+}
+[data-testid="stProgress"] > div {
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: #f1f5f9 !important;
+}
+
+/* ---- Divider ------------------------------------------------------------ */
+hr {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 20px 0;
+}
+
+/* ---- PDF iframe --------------------------------------------------------- */
+.pdf-frame {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    width: 100%;
+}
+
+/* ---- Form controls ------------------------------------------------------ */
+div[data-testid="stTextInput"] input,
+div[data-testid="stNumberInput"] input,
+div[data-testid="stSelectbox"] > div > div > div,
+div[data-testid="stCheckbox"] label {
+    font-size: 13px;
+}
+div[data-testid="stSelectbox"] > div {
+    border: 1px solid var(--line) !important;
+    border-radius: 10px !important;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+div[data-testid="stSelectbox"] > div:focus-within {
+    border-color: var(--accent-2) !important;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1) !important;
+}
+div[data-testid="stNumberInput"] input {
+    border: 1px solid var(--line) !important;
+    border-radius: 10px !important;
+    padding: 9px 12px !important;
+}
+div[data-testid="stTextInput"] input[type="password"],
+div[data-testid="stTextInput"] input[type="text"],
+div[data-testid="stTextInput"] input[type="search"] {
+    background: #ffffff !important;
+    color: var(--ink) !important;
+    border: 1px solid var(--line-strong) !important;
+    border-radius: 6px;
+}
+
+/* ---- Sidebar ------------------------------------------------------------ */
+section[data-testid="stSidebar"] {
+    width: 250px !important;
+    min-width: 250px !important;
+    max-width: 250px !important;
+    background: #ffffff !important;
+    border-right: 1px solid var(--line) !important;
+    padding: 20px 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+}
+.side-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 10px 16px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 16px;
+}
+.side-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 6px 18px rgba(79, 70, 229, 0.3);
+    flex: 0 0 auto;
+}
+.side-brand-text { display: flex; flex-direction: column; }
+.side-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+.side-dot { color: #22c55e; font-size: 8px; }
+section[data-testid="stSidebar"] [role="radio"] {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #334155 !important;
+    margin-bottom: 2px !important;
+    transition: background 0.15s ease, color 0.15s ease !important;
+    cursor: pointer !important;
+    text-transform: none !important;
+}
+section[data-testid="stSidebar"] [role="radio"] > div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100% !important;
+}
+section[data-testid="stSidebar"] [role="radio"] > div > p,
+section[data-testid="stSidebar"] [role="radio"] > div > span {
+    color: #334155 !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+}
+section[data-testid="stSidebar"] [role="radio"]:hover {
+    background: #f1f5f9 !important;
+}
+section[data-testid="stSidebar"] [role="radio"]:hover > div > p,
+section[data-testid="stSidebar"] [role="radio"]:hover > div > span {
+    color: #0f172a !important;
+}
+section[data-testid="stSidebar"] [role="radio"][aria-checked="true"] {
+    background: #eef2ff !important;
+}
+section[data-testid="stSidebar"] [role="radio"][aria-checked="true"] > div > p,
+section[data-testid="stSidebar"] [role="radio"][aria-checked="true"] > div > span {
+    color: #4f46e5 !important;
+    font-weight: 600 !important;
+}
+section[data-testid="stSidebar"] .stMarkdown p {
+    color: var(--ink-muted) !important;
+    font-size: 12px;
+}
+section[data-testid="stSidebar"] .stMarkdown a {
+    color: var(--accent) !important;
+}
+
+/* ---- Hide Streamlit chrome ---------------------------------------------- */
+header.stAppHeader,
+[data-testid="stHeader"],
+.stAppHeaderActions {
+    display: none !important;
+}
+#MainMenu, footer, [data-testid="stToolbar"] {
+    visibility: hidden !important;
+}
+
+/* ---- Main container ----------------------------------------------------- */
+main {
+    flex: 1 !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 32px 40px !important;
+    background: var(--page-bg);
+    min-height: 100vh;
+}
+.stApp {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 100vh !important;
+}
+section[data-testid="MainContainer"] h1 {
+    position: relative;
+    padding-left: 14px;
+}
+section[data-testid="MainContainer"] h1::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.15em;
+    bottom: 0.15em;
+    width: 4px;
+    border-radius: 4px;
+    background: var(--accent);
+}
+/* Ensure Streamlit columns don't stack / constrain markdown width */
+section[data-testid="MainContainer"] div[data-testid="stColumn"] {
+    padding: 6px !important;
+}
+section[data-testid="MainContainer"] div[data-testid="stColumn"] > div {
+    height: 100% !important;
+}
+section[data-testid="MainContainer"] div[data-testid="stColumn"] .stMarkdownContainer,
+section[data-testid="MainContainer"] div[data-testid="stColumn"] .stMarkdown {
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow: hidden !important;
+}
+section[data-testid="MainContainer"] div[data-testid="stColumn"] .stMarkdownContainer > div,
+section[data-testid="MainContainer"] div[data-testid="stColumn"] .stMarkdown > div {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* ---- Smooth scrollbar --------------------------------------------------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+/* ---- Fade-in animation -------------------------------------------------- */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+main > * { animation: fadeUp 0.35s ease forwards; }
+
+/* ==========================================================================
+   RESPONSIVE — Mobile & tablet
+   ========================================================================== */
+
+/* Tablet: ≤ 1024px — KPIs wrap, tighten spacing */
+@media (max-width: 1024px) {
+    main { padding: 24px 18px 50px !important; }
+    .kpi-card { margin: 0 4px !important; padding: 18px; }
+    .kpi-value { font-size: 28px; }
+}
+
+/* Mobile: ≤ 768px — stack columns, collapse sidebar, simplify */
+@media (max-width: 768px) {
+    main {
+        padding: 16px 14px 40px !important;
+        max-width: 100% !important;
+    }
+    /* KPI cards stack full-width on mobile */
+    .kpi-card {
+        margin: 0 0 10px !important;
+        min-width: 0 !important;
+    }
+    /* Page title smaller */
+    .page-title { font-size: 22px; }
+    /* The top search bar collapses to full width on mobile */
+    .top-bar {
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+    .top-bar-search {
+        min-width: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    .top-bar-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    /* Dataframes scroll horizontally instead of crushing */
+    [data-testid="stDataframe"] {
+        overflow-x: auto;
+    }
+    /* Stack all columns vertically */
+    section[data-testid="MainContainer"] div[data-testid="stColumn"] {
+        padding: 8px 0 !important;
+    }
+    /* Hunt list/detail stack */
+    section[data-testid="MainContainer"] div[data-testid="stColumn"][data-splitsindex="0"],
+    section[data-testid="MainContainer"] div[data-testid="stColumn"][data-splitsindex="1"] {
+        width: 100% !important;
+    }
+    /* Detail panel below list on mobile */
+    .hunt-row { margin-bottom: 12px; }
+    /* Section labels tighter */
+    .section-label { margin: 20px 0 12px; }
+    /* Info boxes padding */
+    .ui-info, .ui-warning, .ui-success { padding: 14px 16px; }
+}
+
+/* Small mobile: ≤ 480px */
+@media (max-width: 480px) {
+    main { padding: 12px 12px 32px !important; }
+    .page-title { font-size: 20px; }
+    .kpi-value { font-size: 24px; }
+    .job-card { padding: 16px; }
+    .section-label { font-size: 12px; }
+    /* Stack KPI values into single column */
+    .kpi-card { margin: 0 0 12px !important; }
+}

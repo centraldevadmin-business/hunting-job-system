@@ -1,0 +1,54 @@
+# ============================================================
+# Global settings. Edit thresholds here — no code changes needed.
+# ============================================================
+
+# Target countries (from the Country Eligibility Matrix, §14)
+target_countries:
+  - United Kingdom
+  - European Union
+  - USA
+  - Canada
+  - Australia
+  - New Zealand
+  - Middle East
+
+# Authorization model for a Bangladesh-based candidate
+authorization_model:
+  - B2B
+  - EOR
+
+# Min salary (annual, USD). Roles below this are filtered out.
+min_salary_usd: 30000
+
+# Scoring thresholds (see §11.1)
+match_thresholds:
+  auto_queue_top: 75   # >= 75 -> queue top
+  review: 60           # 60-74 -> review
+  archive: 60          # < 60 -> archive
+
+# Brutal-possibility: label "unproven" until this many real outcomes
+outcomes_before_trusted: 30
+
+# Market-sentiment: dry market if zero eligible jobs for N days
+dry_market_days: 7
+
+# Maintenance mode: stop recommending self-tuned weights after N idle days
+maintenance_mode_days: 14
+
+# Resume variants to generate per job (deterministic A/B)
+resume_variants_per_job: 3
+
+# Follow-up: flag jobs stuck at 'applied' longer than N days
+followup_after_days: 14
+
+# Logging
+logging:
+  level: INFO
+  file: logs/hunt.log
+
+# Storage paths
+paths:
+  db: data/career.db
+  resumes: output/resumes
+  cache: data/cache          # embeddings + LLM output cache (free-tier cost control)
+  backups: data/backups

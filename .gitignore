@@ -1,0 +1,28 @@
+# Secrets
+.env
+*.key
+*.pem
+
+# Local database (contains your real data — never commit)
+data/*.db
+data/*.sqlite
+data/*.sqlite-journal
+
+# Encrypted backups / local artifacts
+data/*.enc
+output/resumes/*.pdf
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# Streamlit / OS
+.streamlit/
+.DS_Store
+*.log
