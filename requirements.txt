@@ -1,0 +1,35 @@
+# Runtime dependencies for the Hunting Job System dashboard.
+# Generated from the project's pyproject.toml + installed venv.
+
+# Dashboard
+streamlit>=1.63
+
+# Ingestion
+playwright>=1.44
+beautifulsoup4>=4.12
+lxml>=5.0
+
+# Vector store
+chromadb>=0.4
+
+# PDF generation
+reportlab>=4.0
+
+# Database (sqlite3 is stdlib)
+
+# LLM / embeddings (free tiers)
+openai>=1.30
+anthropic>=0.30
+
+# Security (local encryption + backups)
+cryptography>=42.0
+
+# Scheduling
+apscheduler>=3.10
+
+# Graph (advanced layer)
+networkx>=3.2
+
+# Config
+pyyaml>=6.0
+python-dotenv>=1.0
