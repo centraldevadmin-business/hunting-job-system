@@ -19,14 +19,12 @@ RUN pip install --no-cache-dir -e .
 RUN mkdir -p data
 
 # Koyeb sets PORT; default to 8501 for Fly.io / local.
-EXPOSE ${PORT:-8501}
-
-ENV STREAMLIT_SERVER_PORT=${PORT:-8501}
+ARG PORT=8501
+ENV PORT=$PORT
+ENV STREAMLIT_SERVER_PORT=$PORT
 ENV STREAMLIT_SERVER_ADDRESS=0.0.0.0
 # Disable the login/signup screen for the public audit deployment.
 ENV DASHBOARD_AUTH_DISABLED=1
+EXPOSE $PORT
 
-CMD ["streamlit", "run", "src/dashboard/app.py", \
-     "--server.port=${PORT:-8501}", \
-     "--server.address=0.0.0.0", \
-     "--server.headless=true"]
+CMD streamlit run src/dashboard/app.py --server.port $PORT --server.address 0.0.0.0 --server.headless true
