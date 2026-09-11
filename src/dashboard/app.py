@@ -133,7 +133,7 @@ def _render_achievement_editor(master: "da.MasterRecord") -> None:
 
         for i, row in enumerate(rows):
             with st.form(key=f"edit_ach_{row['id']}", clear_on_submit=False):
-                c1, c2 = st.columns([3, 1])
+                c1, c2 = st.columns(2)
                 bullet = c1.text_area(
                     "Accomplishment", value=row["bullet"] or "",
                     key=f"ach_bullet_{row['id']}",
@@ -141,7 +141,7 @@ def _render_achievement_editor(master: "da.MasterRecord") -> None:
                 )
                 tools = c2.text_input("Tools", value=row["tools"] or "",
                                        key=f"ach_tools_{row['id']}")
-                c3, c4, c5 = st.columns([2, 2, 1])
+                c3, c4 = st.columns(2)
                 metric = c3.text_input("Metric", value=row["metric"] or "",
                                         key=f"ach_metric_{row['id']}")
                 emp_sel = c4.selectbox(
@@ -150,7 +150,8 @@ def _render_achievement_editor(master: "da.MasterRecord") -> None:
                          if e.id == eid), "Select…"
                     ), key=f"ach_emp_{row['id']}"
                 )
-                if c5.form_submit_button("Save", type="primary"):
+                save_col, _ = st.columns([1, 3])
+                if save_col.form_submit_button("Save", type="primary"):
                     if bullet.strip():
                         repository.execute_sql(
                             "UPDATE achievement SET bullet=?, tools=?, metric=?, "
@@ -178,7 +179,7 @@ def _render_achievement_editor(master: "da.MasterRecord") -> None:
                 placeholder="e.g. Built a Random Forest no-show prediction model achieving 82% accuracy",
             )
             tools = c2.text_input("Tools", value="", key="new_ach_tools")
-            c3, c4, c5 = st.columns([2, 2, 1])
+            c3, c4 = st.columns(2)
             metric = c3.text_input("Metric", value="", key="new_ach_metric")
             emp_sel = c4.selectbox(
                 "Employment", emp_ids,
@@ -187,7 +188,8 @@ def _render_achievement_editor(master: "da.MasterRecord") -> None:
                      if e.id == eid), "Select…"
                 ), key="new_ach_emp"
             )
-            if c5.form_submit_button("Add accomplishment", type="primary"):
+            save_col, _ = st.columns([1, 3])
+            if save_col.form_submit_button("Add accomplishment", type="primary"):
                 if bullet.strip():
                     cur = repository.execute_sql(
                         "INSERT INTO achievement (employment_id, bullet, tools, metric) "
@@ -293,7 +295,7 @@ def _render_resume_preview(card: da.JobCard):
         if b64:
             pdf_display = (
                 f'<iframe src="data:application/pdf;base64,{b64}" '
-                f'class="pdf-frame" height="640" type="application/pdf"></iframe>'
+                f'class="pdf-frame" type="application/pdf"></iframe>'
             )
             st.markdown(pdf_display, unsafe_allow_html=True)
             st.markdown(
@@ -339,7 +341,7 @@ def _render_job_detail(card: da.JobCard):
     # ---- Header ----
     st.markdown(
         f"<div style='display:flex;align-items:flex-start;gap:14px;'>"
-        f"<div class='poss-pill' style='background:{_poss_bg(card.possibility_pct)};color:{_poss_color(card.possibility_pct)[1]};min-width:64px;padding:8px 12px;font-size:16px;'>"
+        f"<div class='poss-pill' style='background:{_poss_bg(card.possibility_pct)};color:{_poss_color(card.possibility_pct)[1]};font-size:16px;padding:8px 12px;'>"
         f"{f'{card.possibility_pct:.0f}%' if card.possibility_pct is not None else '—'}</div>"
         f"<div style='flex:1;'>"
         f"<div style='font-size:20px;font-weight:800;color:#0f172a;letter-spacing:-0.4px;'>{card.role_title or 'Unknown role'}</div>"
@@ -406,7 +408,7 @@ def _render_job_detail(card: da.JobCard):
     # ---- Sticky actions ----
     st.divider()
     st.markdown("**Actions**")
-    act_cols = st.columns([2, 1, 1])
+    act_cols = st.columns([1, 1, 1])
     authorized = da.is_authorized(card.job_id)
 
     if not authorized:
@@ -507,7 +509,7 @@ def _render_job_card(card: da.JobCard, compact: bool = False):
             pct = card.possibility_pct
             bg, fg = _poss_color(pct)
             st.markdown(
-                f'<div class="poss-pill" style="background:{bg};color:{fg};">'
+                f'<div class="poss-pill" style="background:{bg};color:{fg};font-size:13px;">'
                 f'{f"{pct:.0f}%" if pct is not None else "—"}</div>',
                 unsafe_allow_html=True,
             )
@@ -677,203 +679,13 @@ def _run_engine(resume_top_k: int = 5):
 # App entry — login gate (split layout, red background, white card)
 # --------------------------------------------------------------------------- #
 if st.session_state.get("authenticated") != True:
+    # NOTE: All login styles live in design_system.css (see the "Login gate"
+    # section). This file is the single source of truth — do not re-add inline
+    # <style> blocks here.
     st.markdown(
         """
         <style>
-            .login-page {
-                min-height: 100vh;
-                background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 24px;
-                position: relative;
-                overflow: hidden;
-            }
-            .login-page::before {
-                content: "";
-                position: absolute;
-                inset: 0;
-                background-image:
-                    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0%, transparent 40%),
-                    radial-gradient(circle at 80% 70%, rgba(0,0,0,0.10) 0%, transparent 45%);
-                pointer-events: none;
-            }
-            .login-card {
-                display: flex;
-                max-width: 860px;
-                width: 100%;
-                background: #ffffff;
-                border-radius: 20px;
-                box-shadow: 0 24px 70px rgba(15, 23, 42, 0.22);
-                overflow: hidden;
-                position: relative;
-                z-index: 1;
-            }
-            .login-left {
-                flex: 1;
-                padding: 52px 48px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-            .login-right {
-                flex: 1;
-                background: linear-gradient(160deg, #f8fafc 0%, #e2e8f0 100%);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                position: relative;
-                overflow: hidden;
-            }
-            .login-right svg {
-                width: 82%;
-                height: auto;
-                opacity: 0.95;
-            }
-            .login-brand {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                margin-bottom: 34px;
-            }
-            .login-brand-icon {
-                width: 44px;
-                height: 44px;
-                border-radius: 12px;
-                background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 22px;
-                box-shadow: 0 6px 18px rgba(220, 38, 38, 0.35);
-            }
-            .login-brand-name {
-                font-size: 17px;
-                font-weight: 700;
-                color: #0f172a;
-                letter-spacing: -0.3px;
-            }
-            .login-title {
-                font-size: 30px;
-                font-weight: 800;
-                color: #0f172a;
-                margin: 0 0 8px;
-                letter-spacing: -0.6px;
-            }
-            .login-subtitle {
-                color: #64748b;
-                font-size: 15px;
-                margin: 0 0 30px;
-            }
-            .login-field {
-                margin-bottom: 16px;
-            }
-            .login-field label {
-                font-size: 13px;
-                font-weight: 600;
-                color: #334155;
-                margin-bottom: 6px;
-                display: block;
-            }
-            .login-input .stTextInput > div {
-                margin-bottom: 0;
-            }
-            .login-input input {
-                width: 100% !important;
-                border-radius: 10px !important;
-                border: 1px solid #cbd5e1 !important;
-                padding: 13px 15px !important;
-                font-size: 15px !important;
-                transition: border-color 0.2s, box-shadow 0.2s;
-            }
-            .login-input input:focus {
-                border-color: #dc2626 !important;
-                box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12) !important;
-            }
-            .login-remember {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                margin: 4px 0 20px;
-                font-size: 13px;
-                color: #64748b;
-            }
-            .login-remember input {
-                accent-color: #dc2626;
-            }
-            .login-forgot {
-                text-align: right;
-                margin: -12px 0 20px;
-            }
-            .login-forgot a {
-                font-size: 13px;
-                color: #dc2626;
-                text-decoration: none;
-            }
-            .login-button {
-                width: 100% !important;
-                border-radius: 10px !important;
-                padding: 14px 0 !important;
-                font-weight: 700 !important;
-                font-size: 15px !important;
-                background: #dc2626 !important;
-                border: none !important;
-                color: #ffffff !important;
-                transition: background 0.2s, transform 0.1s;
-                box-shadow: 0 6px 18px rgba(220, 38, 38, 0.30);
-            }
-            .login-button:hover {
-                background: #b91c1c !important;
-                transform: translateY(-1px);
-            }
-            .login-google {
-                width: 100% !important;
-                border-radius: 10px !important;
-                padding: 12px 0 !important;
-                font-weight: 600 !important;
-                font-size: 14px !important;
-                background: #ffffff !important;
-                border: 1px solid #cbd5e1 !important;
-                color: #334155 !important;
-                margin-top: 10px;
-            }
-            .login-google:hover {
-                background: #f8fafc !important;
-            }
-            .login-divider {
-                text-align: center;
-                color: #94a3b8;
-                font-size: 12px;
-                margin: 18px 0;
-                position: relative;
-            }
-            .login-footer {
-                text-align: center;
-                color: #94a3b8;
-                font-size: 12px;
-                margin-top: 22px;
-            }
-            .login-footer code {
-                background: #f1f5f9;
-                padding: 2px 6px;
-                border-radius: 4px;
-                font-family: 'Monaco', 'Courier New', monospace;
-            }
-            .login-error {
-                color: #b91c1c;
-                font-size: 13px;
-                text-align: center;
-                margin-bottom: 16px;
-                padding: 10px;
-                background: #fef2f2;
-                border-radius: 8px;
-                border: 1px solid #fecaca;
-            }
-            @media (max-width: 768px) {
-                .login-right { display: none; }
-                .login-card { max-width: 440px; }
-            }
+            /* No inline login CSS — see design_system.css */
         </style>
         """,
         unsafe_allow_html=True,
@@ -947,7 +759,7 @@ if st.session_state.get("authenticated") != True:
         )
 
         st.markdown(
-            '<div class="login-footer">Don’t have an account? <a href="#" style="color:#dc2626;text-decoration:none;">Sign up for free!</a></div>',
+            '<div class="login-footer">Don’t have an account? <a href="#" class="login-signup">Sign up for free!</a></div>',
             unsafe_allow_html=True,
         )
 
@@ -989,7 +801,7 @@ if st.session_state.get("authenticated") != True:
         )
 
     st.markdown(
-        '<div style="text-align:center;color:#94a3b8;font-size:12px;margin-top:24px;">Tip: set <code>DASHBOARD_PASSWORD</code> to change it</div>',
+        '<div class="login-tip">Tip: set <code>DASHBOARD_PASSWORD</code> to change it</div>',
         unsafe_allow_html=True,
     )
 
@@ -1005,10 +817,8 @@ with st.sidebar:
         "<div class='side-brand'>"
         "<div class='side-logo'>📋</div>"
         "<div class='side-brand-text'>"
-        "<div style='font-weight:700;font-size:15px;color:#0f172a;letter-spacing:-0.2px;'>"
-        "Hunting Job System</div>"
-        "<div style='color:#94a3b8;font-size:11px;margin-top:2px;'>"
-        "Autonomous hunt engine</div>"
+        "<div class='side-brand-name'>Hunting Job System</div>"
+        "<div class='side-brand-sub'>Autonomous hunt engine</div>"
         "</div></div>",
         unsafe_allow_html=True,
     )
@@ -1036,7 +846,7 @@ with st.sidebar:
     st.markdown(
         "<div class='side-footer'>"
         "<div class='side-dot'>●</div>"
-        "<div style='color:#94a3b8;font-size:11px;'>"
+        "<div class='side-footer-text'>"
         "Private · Local · $0 · No email</div>"
         "</div>",
         unsafe_allow_html=True,
@@ -1150,11 +960,11 @@ if page == "Overview":
         for name, val, color in stages:
             pct = (val / max_val * 100) if max_val > 0 else 0
             st.markdown(
-                f"<div style='margin-bottom:16px;'>"
-                f"<div style='display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#475569;margin-bottom:8px;'>"
-                f"<span>{name}</span><span style='font-weight:800;color:#0f172a;font-size:14px;'>{val}</span></div>"
-                f"<div style='background:#f1f5f9;border-radius:999px;height:12px;overflow:hidden;'>"
-                f"<div style='background:linear-gradient(90deg,{color},{color});width:{pct}%;height:100%;border-radius:999px;transition:width 0.6s cubic-bezier(0.4,0,0.2,1);box-shadow:0 0 10px {color}55;'></div>"
+                f"<div class='funnel-row'>"
+                f"<div class='funnel-label'><span>{name}</span>"
+                f"<span class='funnel-count'>{val}</span></div>"
+                f"<div class='funnel-track'>"
+                f"<div class='funnel-fill' style='width:{pct}%;background:linear-gradient(90deg,{color},{color});'></div>"
                 f"</div></div>",
                 unsafe_allow_html=True,
             )
@@ -1336,13 +1146,13 @@ elif page == "Hunt":
                 bg, fg = _poss_color(pct)
                 row = lst.markdown(
                     f"<div class='hunt-row' style='cursor:pointer;{'border-color:var(--accent);box-shadow:var(--shadow-md);' if sel else ''}'>"
-                    f"<div style='display:flex;align-items:center;gap:10px;'>"
-                    f"<div class='poss-pill' style='background:{bg};color:{fg};min-width:48px;padding:4px 8px;'>{f'{pct:.0f}%' if pct is not None else '—'}</div>"
-                    f"<div style='flex:1;min-width:0;'>"
-                    f"<div style='font-size:13px;font-weight:700;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>{card.role_title or 'Unknown role'}</div>"
-                    f"<div style='font-size:11px;font-weight:600;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>{card.company or 'Unknown company'}</div>"
+                    f"<div class='hunt-row-inner'>"
+                    f"<div class='poss-pill' style='background:{bg};color:{fg};'>{f'{pct:.0f}%' if pct is not None else '—'}</div>"
+                    f"<div class='hunt-row-meta'>"
+                    f"<div class='hunt-row-title'>{card.role_title or 'Unknown role'}</div>"
+                    f"<div class='hunt-row-company'>{card.company or 'Unknown company'}</div>"
                     f"</div>"
-                    f"<div style='text-align:right;'>"
+                    f"<div class='hunt-row-actions'>"
                     f"<span class='badge'>{_fraud_badge(card)[0]}</span>"
                     f"</div>"
                     f"</div></div>",
@@ -1585,12 +1395,12 @@ elif page == "Analytics":
         max_count = max(a["count"] for a in activity) if activity else 1
         # Render as HTML bars
         st.markdown(
-            "<div style='display:flex;align-items:flex-end;gap:6px;height:150px;padding:16px;background:rgba(255,255,255,0.9);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-md);'>"
+            "<div class='bar-chart'>"
             + "".join(
-                f"<div style='flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:8px;'>"
-                f"<div style='font-size:10px;font-weight:800;color:#475569;'>{a['count']}</div>"
-                f"<div style='width:100%;background:linear-gradient(180deg,#6366f1,#4f46e5);border-radius:7px;height:{max(6, a['count'] / max_count * 100)}%;min-height:6px;box-shadow:0 2px 8px rgba(79,70,229,0.25);transition:height 0.6s cubic-bezier(0.4,0,0.2,1);'></div>"
-                f"<div style='font-size:9px;color:#94a3b8;font-weight:600;'>{a['date'][5:]}</div>"
+                f"<div class='bar-chart-col'>"
+                f"<div class='bar-chart-val'>{a['count']}</div>"
+                f"<div class='bar-chart-bar' style='height:{max(6, a['count'] / max_count * 100)}%;'></div>"
+                f"<div class='bar-chart-date'>{a['date'][5:]}</div>"
                 f"</div>"
                 for a in activity
             )
