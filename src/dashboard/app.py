@@ -67,10 +67,9 @@ st.markdown(f"<style>{_CSS}</style>", unsafe_allow_html=True)
 DEFAULT_PASSWORD = "hunting2026"
 _PASSWORD = os.environ.get("DASHBOARD_PASSWORD", DEFAULT_PASSWORD)
 
-# Set DASHBOARD_AUTH_DISABLED=1 to skip the login/signup screen entirely.
-# Useful for auditing a public deployment without a password.
-if os.environ.get("DASHBOARD_AUTH_DISABLED", "").lower() in ("1", "true", "yes"):
-    st.session_state["authenticated"] = True
+# Login/signup screen disabled for the public audit deployment.
+# The dashboard is open so it can be reviewed without a password.
+st.session_state["authenticated"] = True
 
 
 # --------------------------------------------------------------------------- #
